@@ -43,19 +43,29 @@
     </style>
 </head>
 <body>
-    <div id="counter">1/12</div>
+    <div id="recordingPage">
+        <div id="counter">1/12</div>
 
-    <img id="displayImg" src="" alt="">
-    
-    <button id="recordBtn">● 録音開始</button>
-    <button id="stopBtn" disabled>■ 停止</button>
+        <img id="displayImg" src="" alt="">
+        
+        <button id="recordBtn">● 録音開始</button>
+        <button id="stopBtn" disabled>■ 停止</button>
 
-    <h3>録音した音声</h3>
-    <div id="recordingAudios">
-        <audio id="audio" src="" controls></audio>
+        <h3>録音した音声</h3>
+        <div id="recordingAudios">
+            <audio id="audio" src="" controls></audio>
+        </div>
+
+        <button id="nextBtn" disabled>NEXT</button>
+    </div> 
+
+    <div id="gameStartUI" style="display: none;">
+        <img src="" alt="GAME START!">
     </div>
 
-    <button id="nextBtn" disabled>NEXT</button>
+    <div id="answerPage" style="display: none;">
+        <div id="answerCounter">1/24</div>
+    </div>
 
     <script src="recordAndPlay.js"></script>
 </body>

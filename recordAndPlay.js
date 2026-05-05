@@ -13,6 +13,10 @@ const recordBtn = document.getElementById("recordBtn");
 const stopBtn = document.getElementById("stopBtn");
 const audio = document.getElementById("audio");
 
+const recordingPage = document.getElementById("recordingPage");
+const gameStartUI = document.getElementById("gameStartUI");
+const answerPage = document.getElementById("answerPage");
+
 //ページごとに対応するMIMEを検索
 const CANDIDATES = [
     "audio/webm;codecs=opus",
@@ -141,8 +145,17 @@ nextBtn.onclick = () =>{
     if(count < maxCount)
     {
         count++;
-    }
-    counter.textContent = `${count}/${maxCount}`;
+        counter.textContent = `${count}/${maxCount}`;
+        nextBtn.disabled = true;
 
-    nextBtn.disabled = true;
+        return;
+    }
+    
+    recordingPage.style.display = "none";
+    gameStartUI.style.display = "block";
+    
+    setTimeout(() => {
+        gameStartUI.style.display = "none";
+        answerPage.style.display = "block";
+    }, 2000);
 }
