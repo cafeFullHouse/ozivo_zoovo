@@ -35,6 +35,31 @@
             border-radius: 20px;
         }
 
+        #displayImg{
+            width: 80%;
+            margin: auto;
+            pointer-events: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -moz-touch-collout: none;
+            -moz-user-select: none;
+            display: block;
+        }
+
+        #recBtn,#stopBtn,#answerBtn,#playingAudio{
+            width: 60%;
+            margin: auto;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -moz-touch-collout: none;
+            -moz-user-select: none;
+            outline: none;
+            background: transparent !important;
+            display: block;
+        }
+
         button:disabled {
             filter: saturate(0.1);
             cursor: not-allowed;
@@ -48,13 +73,10 @@
 
         <img id="displayImg" src="" alt="">
         
-        <button id="recordBtn">● 録音開始</button>
-        <button id="stopBtn" disabled>■ 停止</button>
+        <img id="recBtn" src="recBtnBefore.png" alt="recBtn" onclick="recBtnClick()">
+        <img id="stopBtn" src="stopBtnBefore.png" alt="stopBtn" onclick="stopBtnClick()">
 
-        <h3>録音した音声</h3>
-        <div id="recordingAudios">
-            <audio id="audio" src="" controls></audio>
-        </div>
+        <audio id="recordingAudio" src="" controls></audio>
 
         <button id="nextBtn" disabled>NEXT</button>
     </div> 
@@ -65,6 +87,12 @@
 
     <div id="answerPage" style="display: none;">
         <div id="answerCounter">1/24</div>
+
+        <img id="displayImg" src="img0.png" alt="answerImg">
+
+        <audio id="playingAudio" src="" controls></audio>
+
+        <img id="answerBtn" src="answerBtn.png" alt="answerBtnImg" onclick="answerBtnClick()">
     </div>
 
     <script src="recordAndPlay.js"></script>

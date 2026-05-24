@@ -9,13 +9,17 @@ const counter = document.getElementById("counter");
 const nextBtn = document.getElementById("nextBtn");
 
 //録音用
-const recordBtn = document.getElementById("recordBtn");
+const recBtn = document.getElementById("recBtn");
 const stopBtn = document.getElementById("stopBtn");
-const audio = document.getElementById("audio");
+const recordingAudio = document.getElementById("recordingAudio");
+
+const answerBtn = document.getElementById("answerBtn");
 
 const recordingPage = document.getElementById("recordingPage");
 const gameStartUI = document.getElementById("gameStartUI");
 const answerPage = document.getElementById("answerPage");
+
+const playingAudio = document.getElementById("playingAudio");
 
 //ページごとに対応するMIMEを検索
 const CANDIDATES = [
@@ -84,7 +88,8 @@ console.log(images);
 displayImg.src = images[0];
 setImageErrorHandler(displayImg)
 
-recordBtn.onclick = async () => {
+async function recBtnClick()
+{
     if (!stream) 
     {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -92,28 +97,77 @@ recordBtn.onclick = async () => {
 
     mediaRecorder = new MediaRecorder(stream,{mimeType});
 
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
     audioChunks = [];
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
 
     mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
         const audioURL = URL.createObjectURL(audioBlob);
         lastBlob = audioBlob;  
-        audio.src = audioURL;
+        recordingAudio.src = audioURL;
 
-        recordBtn.disabled = false; 
+        recBtn.src = "recBtnBefore.png";
     };
 
     mediaRecorder.start();
-    recordBtn.disabled = true;
-    stopBtn.disabled = false;
+    recBtn.src = "recBtnAfter.png";
+    stopBtn.src = "stopBtnAfter.png";
 };
 
-stopBtn.onclick = () => {
+function stopBtnClick() 
+{
     mediaRecorder.stop();
-    stopBtn.disabled = true;
+    stopBtn.src = "stopBtnBefore.png"
     nextBtn.disabled = false;
+
+    if (lastBlob) 
+    {
+        const selectedImg = images[selectImgIndex];
+        savedImgs.push(selectedImg);
+        savedAudios.push(lastBlob);
+
+        selectImgIndex++;
+
+        if (selectImgIndex < images.length) 
+        {
+            displayImg.src = images[selectImgIndex];
+            setImageErrorHandler(displayImg);
+        } 
+        else 
+        {
+            displayImg.src = "";
+            displayImg.alt = "終了";
+        }
+
+        console.log("保存された画像:", savedImgs);
+        console.log("保存された音声:", savedAudios);
+    }
+
+    recordingAudio.src = "";
+    lastBlob = null;
+
+    if(count < maxCount)
+    {
+        count++;
+        counter.textContent = `${count}/${maxCount}`;
+        nextBtn.disabled = true;
+
+        return;
+    }
+    
+    recordingPage.style.display = "none";
+    gameStartUI.style.display = "block";
+
+    setTimeout(() => {
+        gameStartUI.style.display = "none";
+        answerPage.style.display = "block";
+    }, 2000);
 };
+
+function answerBtnClick()
+{
+    
+}
 
 nextBtn.onclick = () =>{
     if (lastBlob) 
@@ -139,7 +193,7 @@ nextBtn.onclick = () =>{
         console.log("保存された音声:", savedAudios);
     }
 
-    audio.src = "";
+    recordingAudio.src = "";
     lastBlob = null;
 
     if(count < maxCount)
@@ -153,7 +207,7 @@ nextBtn.onclick = () =>{
     
     recordingPage.style.display = "none";
     gameStartUI.style.display = "block";
-    
+
     setTimeout(() => {
         gameStartUI.style.display = "none";
         answerPage.style.display = "block";
