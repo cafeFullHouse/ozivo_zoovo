@@ -48,8 +48,27 @@
         }
 
         #recBtn,#stopBtn,#answerBtn,#playingAudio{
-            width: 60%;
+            width: 30%;
             margin: auto;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -moz-touch-collout: none;
+            -moz-user-select: none;
+            outline: none;
+            background: transparent !important;
+            display: block;
+        }
+
+        #playingAudio{
+            padding: 50px 0px;
+        }
+
+        #nextBtn{
+            width: 30%;
+            text-align: right;
+            margin-left: auto; 
+            margin-right: 0;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
@@ -65,6 +84,10 @@
             cursor: not-allowed;
         }
 
+        #gameStartUI{
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
@@ -78,11 +101,11 @@
 
         <audio id="recordingAudio" src="" controls></audio>
 
-        <button id="nextBtn" disabled>NEXT</button>
+        <button id="debug">SKIP</button>
     </div> 
 
     <div id="gameStartUI" style="display: none;">
-        <img src="" alt="GAME START!">
+        <img src="GAME_START.png" alt="GAME START!">
     </div>
 
     <div id="answerPage" style="display: none;">
@@ -93,6 +116,7 @@
         <audio id="playingAudio" src="" controls></audio>
 
         <img id="answerBtn" src="answerBtn.png" alt="answerBtnImg" onclick="answerBtnClick()">
+        <img id="nextBtn" src="nextBtn.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
     </div>
 
     <script src="recordAndPlay.js"></script>

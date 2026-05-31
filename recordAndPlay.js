@@ -6,7 +6,6 @@ let stream = null;
 let count = 1;
 const maxCount = 12;
 const counter = document.getElementById("counter");
-const nextBtn = document.getElementById("nextBtn");
 
 //録音用
 const recBtn = document.getElementById("recBtn");
@@ -14,12 +13,15 @@ const stopBtn = document.getElementById("stopBtn");
 const recordingAudio = document.getElementById("recordingAudio");
 
 const answerBtn = document.getElementById("answerBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 const recordingPage = document.getElementById("recordingPage");
 const gameStartUI = document.getElementById("gameStartUI");
 const answerPage = document.getElementById("answerPage");
 
 const playingAudio = document.getElementById("playingAudio");
+
+const debugBtn = document.getElementById("debug");
 
 //ページごとに対応するMIMEを検索
 const CANDIDATES = [
@@ -166,9 +168,11 @@ function stopBtnClick()
 
 function answerBtnClick()
 {
-    
+    answerBtn.style.display = "none";
+    nextBtn.style.display = "block";
 }
 
+/*
 nextBtn.onclick = () =>{
     if (lastBlob) 
     {
@@ -205,6 +209,35 @@ nextBtn.onclick = () =>{
         return;
     }
     
+    recordingPage.style.display = "none";
+    gameStartUI.style.display = "block";
+
+    setTimeout(() => {
+        gameStartUI.style.display = "none";
+        answerPage.style.display = "block";
+    }, 2000);
+}
+    */
+
+debugBtn.onclick = () =>{
+    const dummyData = new Uint8Array([0]); 
+    const dummyBlob = new Blob([dummyData], { type: mimeType });
+
+    // ② 12個のダミー音声を savedAudios に入れる
+    savedAudios.length = 0;
+    savedImgs.length = 0;
+
+    for (let i = 0; i < 12; i++) {
+        savedAudios.push(dummyBlob);
+        savedImgs.push(images[i]); // 画像も12個入れておく
+    }
+
+    // ③ カウンタや状態を録音完了状態にする
+    count = maxCount;
+    selectImgIndex = 12;
+    nextBtn.disabled = true;
+
+    // ④ 録音ページをスキップしてゲーム開始へ
     recordingPage.style.display = "none";
     gameStartUI.style.display = "block";
 
