@@ -109,21 +109,7 @@ async function recBtnClick()
         recordingAudio.src = audioURL;
 
         recBtn.src = "recBtnBefore.png";
-    };
 
-    mediaRecorder.start();
-    recBtn.src = "recBtnAfter.png";
-    stopBtn.src = "stopBtnAfter.png";
-};
-
-function stopBtnClick() 
-{
-    mediaRecorder.stop();
-    stopBtn.src = "stopBtnBefore.png"
-    nextBtn.disabled = false;
-
-    if (lastBlob) 
-    {
         const selectedImg = images[selectImgIndex];
         savedImgs.push(selectedImg);
         savedAudios.push(lastBlob);
@@ -143,27 +129,32 @@ function stopBtnClick()
 
         console.log("保存された画像:", savedImgs);
         console.log("保存された音声:", savedAudios);
-    }
 
-    recordingAudio.src = "";
-    lastBlob = null;
-
-    if(count < maxCount)
-    {
         count++;
         counter.textContent = `${count}/${maxCount}`;
-        nextBtn.disabled = true;
 
-        return;
-    }
-    
-    recordingPage.style.display = "none";
-    gameStartUI.style.display = "block";
+        // ⑧ 12回終わったらゲーム開始へ
+        if (count > maxCount) {
+            recordingPage.style.display = "none";
+            gameStartUI.style.display = "block";
 
-    setTimeout(() => {
-        gameStartUI.style.display = "none";
-        answerPage.style.display = "block";
-    }, 2000);
+            setTimeout(() => {
+                gameStartUI.style.display = "none";
+                answerPage.style.display = "block";
+            }, 2000);
+        }
+    };
+
+    mediaRecorder.start();
+    recBtn.src = "recBtnAfter.png";
+    stopBtn.src = "stopBtnAfter.png";
+};
+
+function stopBtnClick() 
+{
+    mediaRecorder.stop();
+    stopBtn.src = "stopBtnBefore.png"
+    stopBtn.disabled = true;
 };
 
 function answerBtnClick()
