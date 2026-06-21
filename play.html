@@ -84,7 +84,7 @@
             cursor: not-allowed;
         }
 
-        #gameStartUI{
+        #gameStartImg{
             width: 100%;
         }
 
@@ -98,14 +98,22 @@
         
         <img id="recBtn" src="recBtnBefore.png" alt="recBtn" onclick="recBtnClick()">
         <img id="stopBtn" src="stopBtnBefore.png" alt="stopBtn" onclick="stopBtnClick()">
+        <img id="returnBtn" src="return.png" alt="returnBtn" onclick="returnBtnClick()">
 
         <audio id="recordingAudio" src="" controls></audio>
 
         <button id="debug">SKIP</button>
     </div> 
 
+    <div id="transitionPage" style="display: none;">
+        <h1>右隣の人にスマホを渡してね</h1>
+        
+        <img id="returnBtn" src="return.png" alt="returnBtn" onclick="returnBeforeRecording()">
+        <img id="transitionNextBtn" src="nextBtn.png" alt="nextBtn" onclick="goNextRecording()">
+    </div>
+
     <div id="gameStartUI" style="display: none;">
-        <img src="GAME_START.png" alt="GAME START!">
+        <img id="gameStartImg" src="GAME_START.png" alt="GAME START!">
     </div>
 
     <div id="answerPage" style="display: none;">
@@ -116,7 +124,7 @@
         <audio id="playingAudio" src="" controls></audio>
 
         <img id="answerBtn" src="answerBtn.png" alt="answerBtnImg" onclick="answerBtnClick()">
-        <img id="nextBtn" src="nextBtn.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
+        <img id="answerNextBtn" src="nextBtn.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
     </div>
 
     <script src="recordAndPlay.js"></script>

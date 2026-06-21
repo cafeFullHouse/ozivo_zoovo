@@ -13,9 +13,10 @@ const stopBtn = document.getElementById("stopBtn");
 const recordingAudio = document.getElementById("recordingAudio");
 
 const answerBtn = document.getElementById("answerBtn");
-const nextBtn = document.getElementById("nextBtn");
+const nextBtn = document.getElementById("answerNextBtn");
 
 const recordingPage = document.getElementById("recordingPage");
+const transitionPage = document.getElementById("transitionPage");
 const gameStartUI = document.getElementById("gameStartUI");
 const answerPage = document.getElementById("answerPage");
 
@@ -83,7 +84,7 @@ function setImageErrorHandler(img) {
     };
 }
 
-shuffle(images);
+//shuffle(images);
 console.log(images);
 
 //初期表示
@@ -109,6 +110,7 @@ async function recBtnClick()
         recordingAudio.src = audioURL;
 
         recBtn.src = "recBtnBefore.png";
+        recBtn.disabled = false;
 
         const selectedImg = images[selectImgIndex];
         savedImgs.push(selectedImg);
@@ -116,38 +118,18 @@ async function recBtnClick()
 
         selectImgIndex++;
 
-        if (selectImgIndex < images.length) 
-        {
-            displayImg.src = images[selectImgIndex];
-            setImageErrorHandler(displayImg);
-        } 
-        else 
-        {
-            displayImg.src = "";
-            displayImg.alt = "終了";
-        }
-
-        console.log("保存された画像:", savedImgs);
-        console.log("保存された音声:", savedAudios);
-
         count++;
         counter.textContent = `${count}/${maxCount}`;
 
-        // ⑧ 12回終わったらゲーム開始へ
-        if (count > maxCount) {
-            recordingPage.style.display = "none";
-            gameStartUI.style.display = "block";
-
-            setTimeout(() => {
-                gameStartUI.style.display = "none";
-                answerPage.style.display = "block";
-            }, 2000);
-        }
+        recordingPage.style.display = "none";
+        transitionPage.style.display = "block";
     };
 
     mediaRecorder.start();
     recBtn.src = "recBtnAfter.png";
     stopBtn.src = "stopBtnAfter.png";
+    recBtn.disabled = true;
+    stopBtn.disabled = false;
 };
 
 function stopBtnClick() 
@@ -156,6 +138,65 @@ function stopBtnClick()
     stopBtn.src = "stopBtnBefore.png"
     stopBtn.disabled = true;
 };
+
+function goNextRecording()
+{
+    // ⑧ 12回終わったらゲーム開始へ
+    if (count > maxCount) {
+        transitionPage.style.display = "none";
+        gameStartUI.style.display = "block";
+
+        setTimeout(() => {
+            gameStartUI.style.display = "none";
+            answerPage.style.display = "block";
+        }, 2000);
+    }
+
+    if (selectImgIndex < images.length) 
+    {
+        displayImg.src = images[selectImgIndex];
+        setImageErrorHandler(displayImg);
+    } 
+    else 
+    {
+        displayImg.src = "";
+        displayImg.alt = "終了";
+    }
+
+    stopBtn.disabled = false;
+
+    transitionPage.style.display = "none";
+    recordingPage.style.display = "block";
+}
+
+function returnBeforeRecording()
+{
+    if(count <= 1)
+    {
+        return;
+    }
+
+    savedImgs.pop();
+    savedAudios.pop();
+
+    selectImgIndex--;
+    count--;
+    counter.textContent = `${count}/${maxCount}`;
+
+    if (selectImgIndex < images.length) 
+    {
+        displayImg.src = images[selectImgIndex];
+        setImageErrorHandler(displayImg);
+    } 
+    else 
+    {
+        displayImg.src = "";
+        displayImg.alt = "終了";
+    }
+
+    recordingPage.style.display = "block";
+    transitionPage.style.display = "none";
+}
 
 function answerBtnClick()
 {
