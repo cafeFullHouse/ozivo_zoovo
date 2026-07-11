@@ -5,6 +5,7 @@ let stream = null;
 //カウント用
 let count = 1;
 const maxCount = 12;
+const answerMaxCount = 24;
 const counter = document.getElementById("counter");
 
 //録音用
@@ -14,6 +15,7 @@ const recordingAudio = document.getElementById("recordingAudio");
 
 const answerBtn = document.getElementById("answerBtn");
 const nextBtn = document.getElementById("answerNextBtn");
+const returnBtn = document.getElementById("returnBtn");
 
 const recordingPage = document.getElementById("recordingPage");
 const transitionPage = document.getElementById("transitionPage");
@@ -40,8 +42,12 @@ if (!mimeType)
 
 //保存用
 let lastBlob = null;
-const savedImgs = [];
 const savedAudios = [];
+
+let answerList = [];
+let currentAnswerIndex = 0;
+const answerDisplayImg = document.getElementById("answerDisplayImg");
+const answerCounter = document.getElementById("answerCounter");
 
 //画像関連
 const displayImg = document.getElementById("displayImg")
@@ -69,6 +75,19 @@ function shuffle(array) {
     }
 }
 
+function createRandomAnswerList()
+{
+    answerList = [];
+
+    for(let i = 0; i < 12; i++)
+    {
+        answerList.push(i);
+        answerList.push(i);
+    }
+
+    shuffle(answerList);
+}
+
 //画像のALT表示用(image〇.pngの〇部分をALTとして表示)
 function setImageErrorHandler(img) {
     img.onerror = () => {
@@ -85,7 +104,6 @@ function setImageErrorHandler(img) {
 }
 
 //shuffle(images);
-console.log(images);
 
 //初期表示
 displayImg.src = images[0];
@@ -93,6 +111,10 @@ setImageErrorHandler(displayImg)
 
 async function recBtnClick()
 {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+        return;
+    }
+
     if (!stream) 
     {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -110,16 +132,13 @@ async function recBtnClick()
         recordingAudio.src = audioURL;
 
         recBtn.src = "recBtnBefore.png";
-        recBtn.disabled = false;
 
-        const selectedImg = images[selectImgIndex];
-        savedImgs.push(selectedImg);
         savedAudios.push(lastBlob);
-
-        selectImgIndex++;
 
         count++;
         counter.textContent = `${count}/${maxCount}`;
+
+        displayImg.src = images[count - 1];
 
         recordingPage.style.display = "none";
         transitionPage.style.display = "block";
@@ -128,16 +147,24 @@ async function recBtnClick()
     mediaRecorder.start();
     recBtn.src = "recBtnAfter.png";
     stopBtn.src = "stopBtnAfter.png";
-    recBtn.disabled = true;
-    stopBtn.disabled = false;
 };
 
 function stopBtnClick() 
 {
+    if (!mediaRecorder || mediaRecorder.state !== "recording") 
+    {
+        return;
+    }
+
     mediaRecorder.stop();
     stopBtn.src = "stopBtnBefore.png"
-    stopBtn.disabled = true;
 };
+
+function returnBtnClick()
+{
+    recordingPage.style.display = "none";
+    transitionPage.style.display = "block";
+}
 
 function goNextRecording()
 {
@@ -146,24 +173,27 @@ function goNextRecording()
         transitionPage.style.display = "none";
         gameStartUI.style.display = "block";
 
+        createRandomAnswerList();
+        currentAnswerIndex = 0;
+
         setTimeout(() => {
             gameStartUI.style.display = "none";
             answerPage.style.display = "block";
+
+            setQuestion();
         }, 2000);
+
+        return;
     }
 
-    if (selectImgIndex < images.length) 
+    if(count == 1)
     {
-        displayImg.src = images[selectImgIndex];
-        setImageErrorHandler(displayImg);
-    } 
-    else 
-    {
-        displayImg.src = "";
-        displayImg.alt = "終了";
+        returnBtn.style.display = "none";
     }
-
-    stopBtn.disabled = false;
+    else
+    {
+        returnBtn.style.display = "block";
+    }
 
     transitionPage.style.display = "none";
     recordingPage.style.display = "block";
@@ -176,23 +206,21 @@ function returnBeforeRecording()
         return;
     }
 
-    savedImgs.pop();
     savedAudios.pop();
 
-    selectImgIndex--;
     count--;
     counter.textContent = `${count}/${maxCount}`;
 
-    if (selectImgIndex < images.length) 
+    if(count == 1)
     {
-        displayImg.src = images[selectImgIndex];
-        setImageErrorHandler(displayImg);
-    } 
-    else 
-    {
-        displayImg.src = "";
-        displayImg.alt = "終了";
+        returnBtn.style.display = "none";
     }
+    else
+    {
+        returnBtn.style.display = "block";
+    }
+
+    displayImg.src = images[count - 1];
 
     recordingPage.style.display = "block";
     transitionPage.style.display = "none";
@@ -200,8 +228,37 @@ function returnBeforeRecording()
 
 function answerBtnClick()
 {
+    const index = answerList[currentAnswerIndex];
+    const answerImg = images[index];
+
+    answerDisplayImg.src = answerImg;
+    setImageErrorHandler(answerImg);
+
     answerBtn.style.display = "none";
     nextBtn.style.display = "block";
+}
+
+function nextBtnClick()
+{
+    currentAnswerIndex++;
+    answerCounter.textContent = `${currentAnswerIndex}/${answerMaxCount}`;
+
+    setQuestion();
+}
+
+function setQuestion()
+{
+    const index = answerList[currentAnswerIndex];
+    const blob = savedAudios[index];
+
+    const url = URL.createObjectURL(blob);
+    playingAudio.src = url;
+
+    answerDisplayImg.src = "img0.png";
+    answerDisplayImg.alt = "?";
+
+    answerBtn.style.display = "block";
+    nextBtn.style.display = "none";
 }
 
 /*
@@ -236,7 +293,6 @@ nextBtn.onclick = () =>{
     {
         count++;
         counter.textContent = `${count}/${maxCount}`;
-        nextBtn.disabled = true;
 
         return;
     }
@@ -257,24 +313,25 @@ debugBtn.onclick = () =>{
 
     // ② 12個のダミー音声を savedAudios に入れる
     savedAudios.length = 0;
-    savedImgs.length = 0;
 
     for (let i = 0; i < 12; i++) {
         savedAudios.push(dummyBlob);
-        savedImgs.push(images[i]); // 画像も12個入れておく
     }
 
     // ③ カウンタや状態を録音完了状態にする
     count = maxCount;
-    selectImgIndex = 12;
-    nextBtn.disabled = true;
 
     // ④ 録音ページをスキップしてゲーム開始へ
     recordingPage.style.display = "none";
     gameStartUI.style.display = "block";
 
+    createRandomAnswerList();
+    currentAnswerIndex = 0;
+
     setTimeout(() => {
         gameStartUI.style.display = "none";
         answerPage.style.display = "block";
+
+        setQuestion();
     }, 2000);
 }
