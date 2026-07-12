@@ -13,28 +13,6 @@
             transform-origin: center;
         }
 
-        #recordBtn{
-            font-weight: bold;
-            font-size: 1.2em;
-            text-decoration: none;
-            background: #ec84a7;
-            color: white;
-            margin: 0px 10px;
-            padding: 7px 15px;
-            border-radius: 20px;
-        }
-
-        #stopBtn{
-            font-weight: bold;
-            font-size: 1.2em;
-            text-decoration: none;
-            background: #84bdec;
-            color: white;
-            margin: 0px 10px;
-            padding: 7px 15px;
-            border-radius: 20px;
-        }
-
         #displayImg,#answerDisplayImg{
             width: 80%;
             margin: auto;
@@ -88,6 +66,42 @@
             width: 100%;
         }
 
+        /* 共通の戻るボタンスタイル */
+        .return-btn {
+            position: fixed;
+            left: 5vw;                       /* 画面左からの余白 */
+            bottom: 5vh;                     /* 画面下からの余白 */
+            width: clamp(48px, 30vw, 150px); /* 最小48px、理想30vw、最大140px */
+            height: auto;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            cursor: pointer;
+        }
+
+        /* 画像は親幅に合わせる */
+        .return-btn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none; /* 親ボタンでクリックを受ける */
+        }
+
+        /* PCなど大画面では固定ピクセルに切り替え */
+        @media (min-width: 900px) {
+            .return-btn {
+                left: 24px;
+                bottom: 24px;
+                width: 150px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,7 +112,10 @@
         
         <img id="recBtn" src="recBtnBefore.png" alt="recBtn" onclick="recBtnClick()">
         <img id="stopBtn" src="stopBtnBefore.png" alt="stopBtn" onclick="stopBtnClick()">
-        <img id="returnBtn" src="return.png" alt="returnBtn" onclick="returnBtnClick()" style="display: none;">
+
+        <button id="returnBtnRecording" class="return-btn" aria-label="前の画面に戻る" style="display:none" onclick="returnBtnClick()">
+            <img src="return.png" alt="戻る">
+        </button>
 
         <audio id="recordingAudio" src="" controls></audio>
 
@@ -108,8 +125,11 @@
     <div id="transitionPage" style="display: none;">
         <h1>右隣の人にスマホを渡してね</h1>
         
-        <img id="returnBtn" src="return.png" alt="returnBtn" onclick="returnBeforeRecording()">
         <img id="transitionNextBtn" src="nextBtn.png" alt="nextBtn" onclick="goNextRecording()">
+
+        <button id="returnBtnTransition" class="return-btn" aria-label="前の画面に戻る" onclick="returnBeforeRecording()">
+            <img src="return.png" alt="戻る">
+        </button>
     </div>
 
     <div id="gameStartUI" style="display: none;">

@@ -15,7 +15,8 @@ const recordingAudio = document.getElementById("recordingAudio");
 
 const answerBtn = document.getElementById("answerBtn");
 const nextBtn = document.getElementById("answerNextBtn");
-const returnBtn = document.getElementById("returnBtn");
+
+const returnBtnRecording = document.getElementById("returnBtnRecording");
 
 const recordingPage = document.getElementById("recordingPage");
 const transitionPage = document.getElementById("transitionPage");
@@ -207,11 +208,11 @@ function goNextRecording()
 
     if(count == 1)
     {
-        returnBtn.style.display = "none";
+        returnBtnRecording.style.display = "none";
     }
     else
     {
-        returnBtn.style.display = "block";
+        returnBtnRecording.style.display = "block";
     }
 
     transitionPage.style.display = "none";
@@ -232,11 +233,11 @@ function returnBeforeRecording()
 
     if(count == 1)
     {
-        returnBtn.style.display = "none";
+        returnBtnRecording.style.display = "none";
     }
     else
     {
-        returnBtn.style.display = "block";
+        returnBtnRecording.style.display = "block";
     }
 
     displayImg.src = images[count - 1];
