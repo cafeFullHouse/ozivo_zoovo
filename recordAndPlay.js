@@ -129,7 +129,15 @@ async function recBtnClick()
         const audioBlob = new Blob(audioChunks, { type: mimeType });
         const audioURL = URL.createObjectURL(audioBlob);
         lastBlob = audioBlob;  
+
+        // 前のURLがあれば解放
+        if (recordingAudio._url) 
+        {
+            URL.revokeObjectURL(recordingAudio._url);
+        }
+        recordingAudio._url = audioURL;
         recordingAudio.src = audioURL;
+        recordingAudio.load();
 
         recBtn.src = "recBtnBefore.png";
 
@@ -253,6 +261,10 @@ function setQuestion()
 
     const url = URL.createObjectURL(blob);
     playingAudio.src = url;
+    playingAudio.load();
+
+    // 再生終了で解放
+    playingAudio.onended = () => { URL.revokeObjectURL(url); playingAudio.onended = null; };
 
     answerDisplayImg.src = "img0.png";
     answerDisplayImg.alt = "?";
