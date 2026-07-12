@@ -109,6 +109,15 @@ function setImageErrorHandler(img) {
 displayImg.src = images[0];
 setImageErrorHandler(displayImg)
 
+function stopStream()
+{
+    if(stream)
+    {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+    }
+}
+
 async function recBtnClick()
 {
     if (mediaRecorder && mediaRecorder.state === "recording") {
@@ -150,6 +159,8 @@ async function recBtnClick()
 
         recordingPage.style.display = "none";
         transitionPage.style.display = "block";
+
+        stopStream();
     };
 
     mediaRecorder.start();
