@@ -9,14 +9,13 @@ const answerMaxCount = 24;
 const counter = document.getElementById("counter");
 
 //録音用
+const heading = document.getElementById("heading");
 const recBtn = document.getElementById("recBtn");
-const stopBtn = document.getElementById("stopBtn");
 const recordingAudio = document.getElementById("recordingAudio");
+const recStrings = document.getElementById("recStrings");
 
 const answerBtn = document.getElementById("answerBtn");
 const nextBtn = document.getElementById("answerNextBtn");
-
-const returnBtnRecording = document.getElementById("returnBtnRecording");
 
 const recordingPage = document.getElementById("recordingPage");
 const transitionPage = document.getElementById("transitionPage");
@@ -122,6 +121,10 @@ function stopStream()
 async function recBtnClick()
 {
     if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        recBtn.querySelector("img").src = "recBtn.png"; 
+        heading.src = "headBefore.png"
+        recStrings.src = "strings2Before.png"
         return;
     }
 
@@ -149,12 +152,13 @@ async function recBtnClick()
         recordingAudio.src = audioURL;
         recordingAudio.load();
 
-        recBtn.src = "recBtnBefore.png";
+        recBtn.querySelector("img").src = "recBtn.png";
+        heading.src = "headBefore.png"
+        recStrings.src = "strings2Before.png"
 
         savedAudios.push(lastBlob);
 
         count++;
-        counter.textContent = `${count}/${maxCount}`;
 
         displayImg.src = images[count - 1];
 
@@ -165,19 +169,9 @@ async function recBtnClick()
     };
 
     mediaRecorder.start();
-    recBtn.src = "recBtnAfter.png";
-    stopBtn.src = "stopBtnAfter.png";
-};
-
-function stopBtnClick() 
-{
-    if (!mediaRecorder || mediaRecorder.state !== "recording") 
-    {
-        return;
-    }
-
-    mediaRecorder.stop();
-    stopBtn.src = "stopBtnBefore.png"
+    recBtn.querySelector("img").src = "stopBtn.png";
+    heading.src = "headAfter.png"
+    recStrings.src = "strings2After.png"
 };
 
 function returnBtnClick()
@@ -206,15 +200,6 @@ function goNextRecording()
         return;
     }
 
-    if(count == 1)
-    {
-        returnBtnRecording.style.display = "none";
-    }
-    else
-    {
-        returnBtnRecording.style.display = "block";
-    }
-
     transitionPage.style.display = "none";
     recordingPage.style.display = "block";
 }
@@ -229,16 +214,6 @@ function returnBeforeRecording()
     savedAudios.pop();
 
     count--;
-    counter.textContent = `${count}/${maxCount}`;
-
-    if(count == 1)
-    {
-        returnBtnRecording.style.display = "none";
-    }
-    else
-    {
-        returnBtnRecording.style.display = "block";
-    }
 
     displayImg.src = images[count - 1];
 

@@ -13,6 +13,36 @@
             transform-origin: center;
         }
 
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #heading{
+            width: 80%;
+        }
+
+        .stringsCenter{
+            width: 100%;
+            margin: none;
+            pointer-events: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -moz-touch-collout: none;
+            -moz-user-select: none;
+            display: block;
+        }
+
+        .page {
+            width: 100vw;
+            min-height: 100vh;
+        }
+
         #displayImg,#answerDisplayImg{
             width: 80%;
             margin: auto;
@@ -25,21 +55,50 @@
             display: block;
         }
 
-        #recBtn,#stopBtn,#answerBtn,#playingAudio{
+        #recBtn,#answerBtn,#playingAudio{
             width: 30%;
             margin: auto;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            -moz-touch-collout: none;
-            -moz-user-select: none;
-            outline: none;
-            background: transparent !important;
+            background: transparent;
+            border: none;
+            padding: 0;
             display: block;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #recBtn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none; 
         }
 
         #playingAudio{
             padding: 50px 0px;
+        }
+
+        #transitionStrings{
+            margin-top: 300px;
+        }
+
+        .twoBtn {
+            display: flex;
+            width: 100%;
+        }
+
+        .twoBtnItem {
+            width: 50%;
+            background: transparent;
+            border: none;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* 中央揃え */
+            align-items: center;
+        }
+
+        .twoBtnItem img {
+            width: 100%; 
+            height: auto;
+            pointer-events: none; /* 画像ではなく button がクリックを受ける */
         }
 
         #nextBtn,#answerNextBtn{
@@ -66,26 +125,6 @@
             width: 100%;
         }
 
-        /* 共通の戻るボタンスタイル */
-        .return-btn {
-            position: fixed;
-            left: 5vw;                       /* 画面左からの余白 */
-            bottom: 5vh;                     /* 画面下からの余白 */
-            width: clamp(48px, 30vw, 150px); /* 最小48px、理想30vw、最大140px */
-            height: auto;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            cursor: pointer;
-        }
-
         /* 画像は親幅に合わせる */
         .return-btn img {
             width: 100%;
@@ -105,38 +144,42 @@
     </style>
 </head>
 <body>
-    <div id="recordingPage">
-        <div id="counter">1/12</div>
+    <div id="recordingPage" class="page">
+        <img id="heading" src="headBefore.png" alt="heading">
+        <img class="stringsCenter" src="strings1.png" alt="hoge">
 
         <img id="displayImg" src="" alt="">
         
-        <img id="recBtn" src="recBtnBefore.png" alt="recBtn" onclick="recBtnClick()">
-        <img id="stopBtn" src="stopBtnBefore.png" alt="stopBtn" onclick="stopBtnClick()">
-
-        <button id="returnBtnRecording" class="return-btn" aria-label="前の画面に戻る" style="display:none" onclick="returnBtnClick()">
-            <img src="return.png" alt="戻る">
+        <button id="recBtn" class="rec-btn" onclick="recBtnClick()">
+            <img src="recBtn.png" alt="録音ボタン">
         </button>
+
+        <img id="recStrings" class="stringsCenter" src="strings2Before.png" alt="">
 
         <audio id="recordingAudio" src="" controls></audio>
 
         <button id="debug">SKIP</button>
     </div> 
 
-    <div id="transitionPage" style="display: none;">
-        <h1>右隣の人にスマホを渡してね</h1>
-        
-        <img id="transitionNextBtn" src="nextBtn.png" alt="nextBtn" onclick="goNextRecording()">
+    <div id="transitionPage" class="page" style="display: none;">
+        <img id="transitionStrings" class="stringsCenter" src="strings3.png" alt="recComplete!">
 
-        <button id="returnBtnTransition" class="return-btn" aria-label="前の画面に戻る" onclick="returnBeforeRecording()">
-            <img src="return.png" alt="戻る">
-        </button>
+        <div class="twoBtn">
+            <button id="returnBtnTransition" class="twoBtnItem" onclick="returnBeforeRecording()">
+                <img src="return.png" alt="戻る">
+            </button>
+        
+            <button id="transitionNextBtn" class="twoBtnItem" onclick="goNextRecording()">
+                <img src="next.png" alt="次へ">
+            </button>
+        </div>
     </div>
 
-    <div id="gameStartUI" style="display: none;">
+    <div id="gameStartUI" class="page" style="display: none;">
         <img id="gameStartImg" src="GAME_START.png" alt="GAME START!">
     </div>
 
-    <div id="answerPage" style="display: none;">
+    <div id="answerPage" class="page" style="display: none;">
         <div id="answerCounter">1/24</div>
 
         <img id="answerDisplayImg" src="img0.png" alt="answerImg">
@@ -144,7 +187,7 @@
         <audio id="playingAudio" src="" controls></audio>
 
         <img id="answerBtn" src="answerBtn.png" alt="answerBtnImg" onclick="answerBtnClick()">
-        <img id="answerNextBtn" src="nextBtn.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
+        <img id="answerNextBtn" src="next.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
     </div>
 
     <script src="recordAndPlay.js"></script>
