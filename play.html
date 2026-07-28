@@ -41,6 +41,7 @@
         .page {
             width: 100vw;
             min-height: 100vh;
+            position: relative;
         }
 
         #displayImg,#answerDisplayImg{
@@ -77,12 +78,17 @@
         }
 
         #transitionStrings{
-            margin-top: 300px;
+            position: absolute;
+            top: 40%;  
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .twoBtn {
-            display: flex;
+            position: absolute;
+            bottom: 5vh;
             width: 100%;
+            display: flex;
         }
 
         .twoBtnItem {
