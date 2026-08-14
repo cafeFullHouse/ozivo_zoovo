@@ -4,196 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>おぢさんもんじゃ</title>
-    <style>
-        #recordingAudios audio{
-            width: 66.6666%;
-            max-width: none; 
-            margin: 10px 0;
-            display: block;
-            transform-origin: center;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("background.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        #heading{
-            width: 80%;
-        }
-
-        .stringsCenter{
-            width: 100%;
-            margin: none;
-            pointer-events: none;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            -moz-touch-collout: none;
-            -moz-user-select: none;
-            display: block;
-        }
-
-        .page {
-            width: 100vw;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        #displayImg,#answerDisplayImg{
-            width: 80%;
-            margin: auto;
-            pointer-events: none;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            -moz-touch-collout: none;
-            -moz-user-select: none;
-            display: block;
-        }
-
-        #recBtn,#answerBtn,#playingAudio{
-            width: 30%;
-            margin: auto;
-            background: transparent;
-            border: none;
-            padding: 0;
-            display: block;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        #recBtn img {
-            width: 100%;
-            height: auto;
-            display: block;
-            pointer-events: none; 
-        }
-
-        #playingAudio{
-            padding: 50px 0px;
-        }
-
-        #transitionStrings{
-            position: absolute;
-            top: 40%;  
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .twoBtn {
-            position: absolute;
-            bottom: 5vh;
-            width: 100%;
-            display: flex;
-        }
-
-        .twoBtnItem {
-            width: 50%;
-            background: transparent;
-            border: none;
-            padding: 0;
-            display: flex;
-            justify-content: center; /* 中央揃え */
-            align-items: center;
-        }
-
-        .twoBtnItem img {
-            width: 100%; 
-            height: auto;
-            pointer-events: none; /* 画像ではなく button がクリックを受ける */
-        }
-
-        #nextBtn,#answerNextBtn{
-            width: 30%;
-            text-align: right;
-            margin-left: auto; 
-            margin-right: 0;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            -moz-touch-collout: none;
-            -moz-user-select: none;
-            outline: none;
-            background: transparent !important;
-            display: block;
-        }
-
-        button:disabled {
-            filter: saturate(0.1);
-            cursor: not-allowed;
-        }
-
-        #gameStartImg{
-            width: 100%;
-        }
-
-        /* 画像は親幅に合わせる */
-        .return-btn img {
-            width: 100%;
-            height: auto;
-            display: block;
-            pointer-events: none; /* 親ボタンでクリックを受ける */
-        }
-
-        /* PCなど大画面では固定ピクセルに切り替え */
-        @media (min-width: 900px) {
-            .return-btn {
-                left: 24px;
-                bottom: 24px;
-                width: 150px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="recordingPage" class="page" onclick="recBtnClick()">
-        <img id="heading" src="headBefore.png" alt="heading">
-        <img class="stringsCenter" src="strings1.png" alt="hoge">
+        <img id="heading" class="img-nonselect" src="headBefore.png" alt="heading">
+        <img class="strings-center img-nonselect" src="strings1.png" alt="hoge">
 
-        <img id="displayImg" src="" alt="">
+        <img id="displayImg" class="img-center img-nonselect center-absolute" src="" alt="">
         
-        <button id="recBtn" class="rec-btn">
-            <img src="recBtn.png" alt="録音ボタン">
-        </button>
+        <div class="below-ui">
+            <button id="recBtn" class="btn-base">
+                <img src="recBtn.png" class="btn-img" alt="録音ボタン">
+            </button>
 
-        <img id="recStrings" class="stringsCenter" src="strings2Before.png" alt="">
+            <img id="recStrings" class="strings-center img-nonselect" src="strings2Before.png" alt="">
 
-        <audio id="recordingAudio" src="" controls></audio>
+            <audio id="recordingAudio" src="" controls></audio>
 
-        <button id="debug">SKIP</button>
+            <button id="debug">SKIP</button>
+        </div>
     </div> 
 
     <div id="transitionPage" class="page" style="display: none;">
-        <img id="transitionStrings" class="stringsCenter" src="strings3.png" alt="recComplete!">
+        <img id="transitionStrings" class="strings-center img-nonselect" src="strings3.png" alt="recComplete!">
 
         <div class="twoBtn">
-            <button id="returnBtnTransition" class="twoBtnItem" onclick="returnBeforeRecording()">
-                <img src="return.png" alt="戻る">
+            <button id="returnBtnTransition" class="twoBtnItem btn-base" onclick="returnBeforeRecording()">
+                <img src="return.png" class="btn-img" alt="戻る">
             </button>
         
-            <button id="transitionNextBtn" class="twoBtnItem" onclick="goNextRecording()">
-                <img src="next.png" alt="次へ">
+            <button id="transitionNextBtn" class="twoBtnItem btn-base" onclick="goNextRecording()">
+                <img src="next.png" class="btn-img" alt="次へ">
             </button>
         </div>
     </div>
 
     <div id="gameStartUI" class="page" style="display: none;">
-        <img id="gameStartImg" src="GAME_START.png" alt="GAME START!">
+        <img id="transitionStrings" class="strings-center img-nonselect" src="strings4.png" alt="recComplete!">
+
+        <div class="twoBtn">
+            <button id="returnBtnTransition" class="twoBtnItem btn-base" onclick="returnBeforeRecording()">
+                <img src="return.png" class="btn-img" alt="戻る">
+            </button>
+        
+            <button id="transitionNextBtn" class="twoBtnItem btn-base" onclick="goAnswerPage()">
+                <img src="next.png" class="btn-img" alt="次へ">
+            </button>
+        </div>
     </div>
 
     <div id="answerPage" class="page" style="display: none;">
         <div id="answerCounter">1/24</div>
 
-        <img id="answerDisplayImg" src="img0.png" alt="answerImg">
+        <img class="strings-center img-nonselect" src="strings5.png" alt="hoge">
+
+        <button id="playBtn" class="btn-base center-absolute" onclick="playRecording()">
+            <img src="playBtn.png" class="btn-img" alt="playingAudio">
+        </button>
+
+        <img id="answerDisplayImg" class="img-center img-nonselect center-absolute" src="" alt="" style="display: none;">
 
         <audio id="playingAudio" src="" controls></audio>
 
-        <img id="answerBtn" src="answerBtn.png" alt="answerBtnImg" onclick="answerBtnClick()">
-        <img id="answerNextBtn" src="next.png" alt="nextBtnImg" onclick="nextBtnClick()" style="display: none;">
+        <div class="twoBtn">
+            <div class="twoBtnItem"></div> 
+
+            <button id="answerBtn" class="twoBtnItem btn-base" onclick="answerBtnClick()">
+                <img src="answerBefore.png" class="btn-img" alt="答え">
+            </button>
+        </div>
     </div>
 
     <script src="recordAndPlay.js"></script>

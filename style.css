@@ -1,0 +1,154 @@
+/* ===========================
+基本レイアウト
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.page {
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+}
+
+.center-absolute {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.below-ui {
+    padding-top: 40vh; 
+}
+
+/* ===========================
+画像の共通スタイル
+=========================== */
+.img-nonselect {
+    pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    display: block;
+}
+
+/* 中央寄せ画像（displayImg, answerDisplayImg） */
+.img-center {
+    width: 80%;
+    margin: auto;
+}
+
+/* ヘッダー画像 */
+#heading {
+    width: 80%;
+}
+
+/* ===========================
+ボタン系
+=========================== */
+.btn-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+.btn-base {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#recBtn{
+    width: 30%;
+    margin: auto;
+}
+
+#playBtn{
+    width: 50%;
+    margin: auto;
+}
+
+#playingAudio {
+    padding: 50px 0;
+}
+
+button:disabled {
+    filter: saturate(0.1);
+    cursor: not-allowed;
+}
+
+/* ===========================
+文字列画像（strings）
+=========================== */
+.strings-center {
+    width: 100%;
+    margin: 0;
+    pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    display: block;
+}
+
+/* ===========================
+ページ固有の配置
+=========================== */
+#transitionStrings {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ===========================
+2ボタンレイアウト
+=========================== */
+.twoBtn {
+    position: absolute;
+    bottom: 5vh;
+    width: 100%;
+    display: flex;
+}
+
+.twoBtnItem {
+    width: 50%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.twoBtnItem img {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
+
+/* ===========================
+Nextボタン
+=========================== */
+#answerNextBtn {
+    width: 30%;
+    text-align: right;
+    margin-left: auto;
+    background: transparent !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    outline: none;
+    display: block;
+}
