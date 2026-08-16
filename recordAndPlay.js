@@ -5,7 +5,7 @@ let stream = null;
 //カウント用
 let count = 1;
 const maxCount = 12;
-const answerMaxCount = 24;
+const answerMaxCount = 20;
 const counter = document.getElementById("counter");
 
 //録音用
@@ -85,10 +85,17 @@ function createRandomAnswerList()
     for(let i = 0; i < 12; i++)
     {
         answerList.push(i);
-        answerList.push(i);
+    }
+
+    const remaining = answerMaxCount - 12;
+    for(let j = 0; j < remaining; j++)
+    {
+        const randomIndex = Math.floor(Math.random() * 12);
+        answerList.push(randomIndex);
     }
 
     shuffle(answerList);
+    console.log(answerList);
 }
 
 //画像のALT表示用(image〇.pngの〇部分をALTとして表示)
@@ -160,8 +167,6 @@ async function recBtnClick()
 
         count++;
 
-        displayImg.src = images[count - 1];
-
         stopStream();
 
         // ⑧ 12回終わったらゲーム開始へ
@@ -174,6 +179,8 @@ async function recBtnClick()
 
             return;
         }
+
+        displayImg.src = images[count - 1];
 
         recordingPage.style.display = "none";
         transitionPage.style.display = "block";
@@ -252,8 +259,6 @@ function goNextQuestion()
         return;
     }
 
-    answerCounter.textContent = `${currentAnswerIndex}/${answerMaxCount}`;
-
     playBtn.style.display = "block";
     answerDisplayImg.style.display = "none";
 
@@ -268,6 +273,8 @@ function goNextQuestion()
 
 function setQuestion()
 {
+    answerCounter.textContent = `${currentAnswerIndex}/${answerMaxCount}`;
+
     const index = answerList[currentAnswerIndex - 1];
     const blob = savedAudios[index];
 

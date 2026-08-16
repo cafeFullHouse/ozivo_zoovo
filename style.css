@@ -201,6 +201,13 @@ button:disabled {
     cursor: pointer;       
 }
 
+.img-caption {
+    margin-top: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* ===========================
 Nextボタン
 =========================== */
