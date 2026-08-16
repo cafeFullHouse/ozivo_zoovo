@@ -11,7 +11,7 @@ const counter = document.getElementById("counter");
 //録音用
 const heading = document.getElementById("heading");
 const recBtn = document.getElementById("recBtn");
-const recordingAudio = document.getElementById("recordingAudio");
+const recordingAudio = new Audio();
 const recStrings = document.getElementById("recStrings");
 
 const answerBtn = document.getElementById("answerBtn");
@@ -20,8 +20,11 @@ const recordingPage = document.getElementById("recordingPage");
 const transitionPage = document.getElementById("transitionPage");
 const gameStartUI = document.getElementById("gameStartUI");
 const answerPage = document.getElementById("answerPage");
+const finishPage = document.getElementById("finishPage");
 
-const playingAudio = document.getElementById("playingAudio");
+const answerStrings = document.getElementById("answerStrings");
+
+const playingAudio = new Audio();
 
 const debugBtn = document.getElementById("debug");
 
@@ -44,7 +47,7 @@ let lastBlob = null;
 const savedAudios = [];
 
 let answerList = [];
-let currentAnswerIndex = 0;
+let currentAnswerIndex = 1;
 const answerDisplayImg = document.getElementById("answerDisplayImg");
 const answerCounter = document.getElementById("answerCounter");
 
@@ -149,7 +152,6 @@ async function recBtnClick()
         }
         recordingAudio._url = audioURL;
         recordingAudio.src = audioURL;
-        recordingAudio.load();
 
         recBtn.querySelector("img").src = "recBtn.png";
         heading.src = "headBefore.png"
@@ -161,10 +163,21 @@ async function recBtnClick()
 
         displayImg.src = images[count - 1];
 
+        stopStream();
+
+        // ⑧ 12回終わったらゲーム開始へ
+        if (count > maxCount) {
+            recordingPage.style.display = "none";
+            gameStartUI.style.display = "block";
+
+            createRandomAnswerList();
+            currentAnswerIndex = 1;
+
+            return;
+        }
+
         recordingPage.style.display = "none";
         transitionPage.style.display = "block";
-
-        stopStream();
     };
 
     mediaRecorder.start();
@@ -181,25 +194,6 @@ function returnBtnClick()
 
 function goNextRecording()
 {
-    // ⑧ 12回終わったらゲーム開始へ
-    if (count > maxCount) {
-        transitionPage.style.display = "none";
-        gameStartUI.style.display = "block";
-
-        createRandomAnswerList();
-        currentAnswerIndex = 0;
-/*
-        setTimeout(() => {
-            gameStartUI.style.display = "none";
-            answerPage.style.display = "block";
-
-            setQuestion();
-        }, 2000);
-        */
-
-        return;
-    }
-
     transitionPage.style.display = "none";
     recordingPage.style.display = "block";
 }
@@ -231,11 +225,13 @@ function returnBeforeRecording()
 
 function answerBtnClick()
 {
-    const index = answerList[currentAnswerIndex];
+    const index = answerList[currentAnswerIndex - 1];
     const answerImg = images[index];
 
     answerDisplayImg.src = answerImg;
     setImageErrorHandler(answerImg);
+
+    answerStrings.src = "strings6.png";
 
     playBtn.style.display = "none";
     answerDisplayImg.style.display = "block";
@@ -248,10 +244,21 @@ function answerBtnClick()
 function goNextQuestion()
 {
     currentAnswerIndex++;
+
+    if(currentAnswerIndex > answerMaxCount)
+    {
+        answerPage.style.display = "none";
+        finishPage.style.display = "block";
+
+        return;
+    }
+
     answerCounter.textContent = `${currentAnswerIndex}/${answerMaxCount}`;
 
     playBtn.style.display = "block";
     answerDisplayImg.style.display = "none";
+
+    answerStrings.src = "strings5.png";
 
     answerBtn.querySelector("img").src = "answerBefore.png";
 
@@ -262,12 +269,11 @@ function goNextQuestion()
 
 function setQuestion()
 {
-    const index = answerList[currentAnswerIndex];
+    const index = answerList[currentAnswerIndex - 1];
     const blob = savedAudios[index];
 
     const url = URL.createObjectURL(blob);
     playingAudio.src = url;
-    playingAudio.load();
 
     // 再生終了で解放
     playingAudio.onended = () => { URL.revokeObjectURL(url); playingAudio.onended = null; };
@@ -302,7 +308,7 @@ debugBtn.onclick = () =>{
     gameStartUI.style.display = "block";
 
     createRandomAnswerList();
-    currentAnswerIndex = 0;
+    currentAnswerIndex = 1;
 /*
     setTimeout(() => {
         gameStartUI.style.display = "none";

@@ -23,6 +23,14 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.header-area {
+    width: 100%;
+    height: 20vh;
+    text-align: center;
+    font-size: 48px;      /* ← 録音タイムと同じ大きさに調整 */
+    font-weight: bold;
+}
+
 .below-ui {
     padding-top: 40vh; 
 }
@@ -50,6 +58,11 @@ body {
     width: 80%;
 }
 
+#displayImg{
+    width: 100%;
+    margin: auto;
+}
+
 /* ===========================
 ボタン系
 =========================== */
@@ -74,7 +87,7 @@ body {
 }
 
 #playBtn{
-    width: 50%;
+    width: 60%;
     margin: auto;
 }
 
@@ -106,7 +119,21 @@ button:disabled {
 =========================== */
 #transitionStrings {
     position: absolute;
-    top: 40%;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#gameStartStrings {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#finishStrings {
+    position: absolute;
+    top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

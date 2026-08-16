@@ -8,7 +8,10 @@
 </head>
 <body>
     <div id="recordingPage" class="page" onclick="recBtnClick()">
-        <img id="heading" class="img-nonselect" src="headBefore.png" alt="heading">
+        <div class="header-area">
+            <img id="heading" class="img-nonselect" src="headBefore.png" alt="heading">
+        </div>
+
         <img class="strings-center img-nonselect" src="strings1.png" alt="hoge">
 
         <img id="displayImg" class="img-center img-nonselect center-absolute" src="" alt="">
@@ -19,8 +22,6 @@
             </button>
 
             <img id="recStrings" class="strings-center img-nonselect" src="strings2Before.png" alt="">
-
-            <audio id="recordingAudio" src="" controls></audio>
 
             <button id="debug">SKIP</button>
         </div>
@@ -41,7 +42,7 @@
     </div>
 
     <div id="gameStartUI" class="page" style="display: none;">
-        <img id="transitionStrings" class="strings-center img-nonselect" src="strings4.png" alt="recComplete!">
+        <img id="gameStartStrings" class="strings-center img-nonselect" src="strings4.png" alt="recComplete!">
 
         <div class="twoBtn">
             <button id="returnBtnTransition" class="twoBtnItem btn-base" onclick="returnBeforeRecording()">
@@ -55,17 +56,15 @@
     </div>
 
     <div id="answerPage" class="page" style="display: none;">
-        <div id="answerCounter">1/24</div>
+        <div id="answerCounter" class="header-area">1/24</div>
 
-        <img class="strings-center img-nonselect" src="strings5.png" alt="hoge">
+        <img id="answerStrings" class="strings-center img-nonselect" src="strings5.png" alt="hoge">
 
         <button id="playBtn" class="btn-base center-absolute" onclick="playRecording()">
             <img src="playBtn.png" class="btn-img" alt="playingAudio">
         </button>
 
         <img id="answerDisplayImg" class="img-center img-nonselect center-absolute" src="" alt="" style="display: none;">
-
-        <audio id="playingAudio" src="" controls></audio>
 
         <div class="twoBtn">
             <div class="twoBtnItem"></div> 
@@ -74,6 +73,24 @@
                 <img src="answerBefore.png" class="btn-img" alt="答え">
             </button>
         </div>
+    </div>
+
+    <div id="finishPage" class="page" style="display: none;">
+        <img id="finishStrings" class="strings-center img-nonselect" src="strings7.png" alt="hoge">
+
+        <div class="twoBtn">
+            <button id="replayGameBtn" class="twoBtnItem btn-base" onclick="">
+                <img src="replay.png" class="btn-img" alt="戻る">
+            </button>
+        
+            <button id="transitionNextBtn" class="twoBtnItem btn-base" onclick="">
+                <img src="next.png" class="btn-img" alt="次へ">
+            </button>
+        </div>
+    </div>
+
+    <div id="">
+
     </div>
 
     <script src="recordAndPlay.js"></script>
