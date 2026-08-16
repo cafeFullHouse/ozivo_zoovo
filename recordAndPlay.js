@@ -106,6 +106,11 @@ function setImageErrorHandler(img) {
     };
 }
 
+function startGame()
+{
+    window.location.href = "play.html";
+}
+
 //初期表示
 displayImg.src = images[0];
 setImageErrorHandler(displayImg)

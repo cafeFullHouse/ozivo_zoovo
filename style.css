@@ -81,12 +81,18 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-#recBtn{
+#gameStartBtn {
+    width: 70%;
+    margin-left: auto;
+    display: block;
+}
+
+#recBtn {
     width: 30%;
     margin: auto;
 }
 
-#playBtn{
+#playBtn {
     width: 60%;
     margin: auto;
 }
@@ -117,6 +123,11 @@ button:disabled {
 /* ===========================
 ページ固有の配置
 =========================== */
+#titleStrings {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
 #transitionStrings {
     position: absolute;
     top: 41%;
