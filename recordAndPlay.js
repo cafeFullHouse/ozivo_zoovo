@@ -21,6 +21,7 @@ const transitionPage = document.getElementById("transitionPage");
 const gameStartUI = document.getElementById("gameStartUI");
 const answerPage = document.getElementById("answerPage");
 const finishPage = document.getElementById("finishPage");
+const promotionPage = document.getElementById("promotionPage")
 
 const answerStrings = document.getElementById("answerStrings");
 
@@ -104,8 +105,6 @@ function setImageErrorHandler(img) {
         }
     };
 }
-
-//shuffle(images);
 
 //初期表示
 displayImg.src = images[0];
@@ -275,7 +274,7 @@ function setQuestion()
     const url = URL.createObjectURL(blob);
     playingAudio.src = url;
 
-    // 再生終了で解放
+    //再生終了で解放
     playingAudio.onended = () => { URL.revokeObjectURL(url); playingAudio.onended = null; };
 
     answerDisplayImg.src = "img0.png";
@@ -288,6 +287,42 @@ function playRecording()
 {
     playingAudio.play();
 };
+
+function goPromotionPage()
+{
+    finishPage.style.display = "none";
+    promotionPage.style.display = "block";
+}
+
+function resetGame()
+{
+    savedAudios.length = 0;
+    lastBlob = null;
+
+    count = 1;
+    currentAnswerIndex = 1;
+    answerList = [];
+
+    displayImg.src = images[0];
+    setImageErrorHandler(displayImg);
+
+    answerDisplayImg.style.display = "none";
+    playBtn.style.display = "block";
+    answerBtn.querySelector("img").src = "answerBefore.png";
+    answerStrings.src = "strings5.png";
+
+    finishPage.style.display = "none";
+    promotionPage.style.display = "none";
+    answerPage.style.display = "none";
+    gameStartUI.style.display = "none";
+    transitionPage.style.display = "none";
+    recordingPage.style.display = "block"; 
+
+    heading.src = "headBefore.png";
+    recStrings.src = "strings2Before.png";
+
+    stopStream();
+}
 
 debugBtn.onclick = () =>{
     const dummyData = new Uint8Array([0]); 
@@ -305,16 +340,8 @@ debugBtn.onclick = () =>{
 
     // ④ 録音ページをスキップしてゲーム開始へ
     recordingPage.style.display = "none";
-    gameStartUI.style.display = "block";
+    finishPage.style.display = "block";
 
     createRandomAnswerList();
     currentAnswerIndex = 1;
-/*
-    setTimeout(() => {
-        gameStartUI.style.display = "none";
-        answerPage.style.display = "block";
-
-        setQuestion();
-    }, 2000);
-    */
 }
