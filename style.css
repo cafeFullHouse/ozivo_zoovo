@@ -11,6 +11,8 @@ body {
 }
 
 footer{
+    width: 100%;
+    text-align: right;
     background-color: rgb(239, 239, 239);
 }
 
@@ -37,6 +39,28 @@ footer{
 
 .below-ui {
     padding-top: 40vh; 
+}
+
+.container {
+    display: flex;
+    flex-direction: column;     /* 縦並び */
+    justify-content: center;    /* 縦方向の中央 */
+    align-items: center;        /* 横方向の中央 */
+    height: 100vh;              /* 画面全体の高さを使う */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;                  /* 各要素間の余白 */
+    background: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;               /* フォームの横幅を固定 */
+}
+
+.contact-link {
+    font-weight: bold;
 }
 
 /* ===========================
