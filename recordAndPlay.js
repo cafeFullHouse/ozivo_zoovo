@@ -82,15 +82,15 @@ function createRandomAnswerList()
 {
     answerList = [];
 
-    for(let i = 0; i < 12; i++)
+    for(let i = 0; i < maxCount; i++)
     {
         answerList.push(i);
     }
 
-    const remaining = answerMaxCount - 12;
+    const remaining = answerMaxCount - maxCount;
     for(let j = 0; j < remaining; j++)
     {
-        const randomIndex = Math.floor(Math.random() * 12);
+        const randomIndex = Math.floor(Math.random() * maxCount);
         answerList.push(randomIndex);
     }
 
@@ -235,7 +235,7 @@ function answerBtnClick()
     const answerImg = images[index];
 
     answerDisplayImg.src = answerImg;
-    setImageErrorHandler(answerImg);
+    setImageErrorHandler(answerDisplayImg);
 
     answerStrings.src = "strings6.png";
 
@@ -251,14 +251,6 @@ function goNextQuestion()
 {
     currentAnswerIndex++;
 
-    if(currentAnswerIndex > answerMaxCount)
-    {
-        answerPage.style.display = "none";
-        finishPage.style.display = "block";
-
-        return;
-    }
-
     playBtn.style.display = "block";
     answerDisplayImg.style.display = "none";
 
@@ -267,6 +259,14 @@ function goNextQuestion()
     answerBtn.querySelector("img").src = "answerBefore.png";
 
     answerBtn.onclick = answerBtnClick;
+
+    if(currentAnswerIndex > answerMaxCount)
+    {
+        answerPage.style.display = "none";
+        finishPage.style.display = "block";
+
+        return;
+    }
 
     setQuestion();
 }
@@ -338,7 +338,7 @@ debugBtn.onclick = () =>{
     // ② 12個のダミー音声を savedAudios に入れる
     savedAudios.length = 0;
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < maxCount; i++) {
         savedAudios.push(dummyBlob);
     }
 
